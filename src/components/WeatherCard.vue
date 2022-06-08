@@ -6,6 +6,9 @@
     <p>
       {{ weather.main.temp}}
     </p>
+    <button @click="remove">
+      Remove
+    </button>
   </div>
 </template>
 
@@ -15,6 +18,15 @@ export default {
     weather: {
       type: Object,
       required: true
+    },
+    weatherIndex: {
+      type: Number,
+      required: true
+    }
+  },
+  methods: {
+    remove() {
+      this.$emit('remove', {'defaultCityIndex': this.weather.originIndex, 'weatherCastIndex': this.weatherIndex})
     }
   }
 }

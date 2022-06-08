@@ -5,11 +5,10 @@
     <weather-card
         v-for="(weatherData, index) in weatherCasts"
         :weather="weatherData"
+        :weather-index="index"
         :key="`weather-card-${index}`"
+        @remove="deleteCity"
     />
-
-    {{ errors }}
-    {{ cityName }}
     <div>
       <input v-model="cityName" @keyup.enter="addCity">
       <button @click="addCity">
@@ -70,18 +69,18 @@ export default {
     },
 
      getDefaultWeather () {
-      for (const cityName of this.defaultCities) {
-        this.addCityToList(cityName)
-      }
+      this.defaultCities.forEach((cityName, originIndex) => {
+        this.addCityToList(cityName, originIndex)
+      })
     },
 
-    async addCityToList(cityName) {
+    async addCityToList(cityName, originIndex) {
       try {
         let cityWeatherData = await this.getWeatherByCityName(cityName)
+        cityWeatherData.data['originIndex'] = originIndex
         this.weatherCasts.push(cityWeatherData.data)
         this.defaultCities.push(cityName)
-        this.defaultCities = [... new Set(this.defaultCities)]
-        localStorage.setItem('defaultCities', JSON.stringify(this.defaultCities))
+        this.storeDefaultCitiesInLocalStorage()
       } catch (e) {
         this.errors.push(`Failed to add city: ${cityName}  to the list. Please check your input.`)
       }
@@ -90,6 +89,17 @@ export default {
     addCity() {
       this.addCityToList(this.cityName)
       this.cityName = ''
+    },
+
+    storeDefaultCitiesInLocalStorage() {
+      this.defaultCities = [... new Set(this.defaultCities)]
+      localStorage.setItem('defaultCities', JSON.stringify(this.defaultCities))
+    },
+
+    deleteCity({ defaultCityIndex, weatherCastIndex}) {
+      this.defaultCities.splice(defaultCityIndex, 1)
+      this.weatherCasts.splice(weatherCastIndex, 1)
+      this.storeDefaultCitiesInLocalStorage()
     }
   }
 }
