@@ -86,6 +86,7 @@ export default {
   padding: 1.5rem;
   display: flex;
   transition: all ease 0.6s;
+  filter: drop-shadow(0 20px 13px rgb(0 0 0 / 0.03)) drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));
 }
 
 .weather-card .w-icon-wrap {

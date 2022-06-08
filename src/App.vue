@@ -10,9 +10,13 @@
           <h4 class="text-white mx-3 user-select-none">Lekker weertje hè</h4>
         </div>
 
+        <div style="position: absolute; bottom:0; right: 0; z-index: -1">
+          <img src="/bg-blur-2.png">
+        </div>
+
         <div class="text-white user-select-none">
-          <span :class="[ unit === 'metric' ? 'unit-active' : 'unit-inactive' ]" @click="storeUnitPreference('metric')">C</span> |
-          <span :class="[ unit === 'imperial' ? 'unit-active' : 'unit-inactive' ]" @click="storeUnitPreference('imperial')">F</span>
+          <span :class="[ unit === 'metric' ? 'unit-active' : 'unit-inactive' ]" @click="storeUnitPreference('metric')">C  &#176;</span> |
+          <span :class="[ unit === 'imperial' ? 'unit-active' : 'unit-inactive' ]" @click="storeUnitPreference('imperial')">F  &#176;</span>
         </div>
       </div>
 
@@ -23,13 +27,17 @@
             Toevoegen
           </button>
         </div>
-        <weather-card
-            v-for="(weatherData, index) in weatherCasts"
-            :weather="weatherData"
-            :weather-index="index"
-            :key="`weather-card-${index}`"
-            @remove="deleteCity"
-        />
+
+        <transition-group name="list-complete">
+          <weather-card
+              v-for="(weatherData, index) in weatherCasts"
+              :weather="weatherData"
+              :weather-index="index"
+              :key="`weather-card-${index}`"
+              @remove="deleteCity"
+          />
+        </transition-group>
+
       </div>
     </div>
   </div>
@@ -37,9 +45,23 @@
 
 <style>
 body {
-  height: 100vh;
+  min-height: 100vh;
   background: rgb(67, 86, 111);
   background: linear-gradient(157deg, rgba(67, 86, 111, 1) 0%, rgba(20, 54, 116, 1) 100%);
+}
+
+.list-complete-item {
+  transition: all 1s;
+  display: block;
+  margin-right: 10px;
+}
+.list-complete-enter, .list-complete-leave-to
+  /* .list-complete-leave-active below version 2.1.8 */ {
+  opacity: 0;
+  transform: translateY(30px);
+}
+.list-complete-leave-active {
+  /*position: absolute;*/
 }
 
 .cityInput {
