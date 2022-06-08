@@ -46,8 +46,8 @@ export default {
   },
   mounted () {
     console.log(localStorage.getItem('defaultCities'))
-    // let localDefaultCities = localStorage.getItem('defaultCities')
-    // if (localDefaultCities) this.defaultCities = localDefaultCities
+    let localDefaultCities = JSON.parse(localStorage.getItem('defaultCities'))
+    if (localDefaultCities) this.defaultCities = localDefaultCities
 
     this.getDefaultWeather()
   },
@@ -79,7 +79,9 @@ export default {
       try {
         let cityWeatherData = await this.getWeatherByCityName(cityName)
         this.weatherCasts.push(cityWeatherData.data)
-        // localStorage.setItem('defaultCities', this.defaultCities)
+        this.defaultCities.push(cityName)
+        this.defaultCities = [... new Set(this.defaultCities)]
+        localStorage.setItem('defaultCities', JSON.stringify(this.defaultCities))
       } catch (e) {
         this.errors.push(`Failed to add city: ${cityName}  to the list. Please check your input.`)
       }
