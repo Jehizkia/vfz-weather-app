@@ -22,8 +22,11 @@
       </p>
       <p class="fs-2 text-white">
         {{ temperature }}
-        <span>
+        <span v-if="unit === 'metric'">
           &#176; C
+        </span>
+        <span v-else>
+          &#176; F
         </span>
       </p>
 
@@ -46,6 +49,10 @@ export default {
     weatherIndex: {
       type: Number,
       required: true
+    },
+    unit: {
+      type: String,
+      default: 'metric'
     }
   },
   computed: {

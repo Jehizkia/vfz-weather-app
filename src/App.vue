@@ -7,11 +7,12 @@
           <div style="width: 3rem;">
             <my-logo></my-logo>
           </div>
-          <h4 class="text-white mx-3">Lekker weertje hè</h4>
+          <h4 class="text-white mx-3 user-select-none">Lekker weertje hè</h4>
         </div>
 
-        <div class="text-white">
-          C | F
+        <div class="text-white user-select-none">
+          <span :class="[ unit === 'metric' ? 'unit-active' : 'unit-inactive' ]" @click="storeUnitPreference('metric')">C</span> |
+          <span :class="[ unit === 'imperial' ? 'unit-active' : 'unit-inactive' ]" @click="storeUnitPreference('imperial')">F</span>
         </div>
       </div>
 
@@ -73,6 +74,16 @@ body {
 .citySubmit:hover {
   background: linear-gradient(157deg, rgb(140 178 251 / 66%) 0%, rgb(160 184 228 / 20%) 100%);
 }
+
+.unit-active {
+  color: white;
+  cursor: pointer;
+}
+
+.unit-inactive {
+  color:  rgb(109 126 154);
+  cursor: pointer;
+}
 </style>
 
 <script>
@@ -101,9 +112,11 @@ export default {
     }
   },
   mounted () {
-    console.log(localStorage.getItem('defaultCities'))
     let localDefaultCities = JSON.parse(localStorage.getItem('defaultCities'))
     if (localDefaultCities) this.defaultCities = localDefaultCities
+
+    let unitPreference = localStorage.getItem('unitPreference')
+    if (unitPreference) this.unit = unitPreference
 
     this.getDefaultWeather()
   },
@@ -151,6 +164,11 @@ export default {
     storeDefaultCitiesInLocalStorage () {
       this.defaultCities = [...new Set(this.defaultCities)]
       localStorage.setItem('defaultCities', JSON.stringify(this.defaultCities))
+    },
+
+    storeUnitPreference(unit) {
+      localStorage.setItem('unitPreference', unit)
+      window.location.reload()
     },
 
     deleteCity ({
