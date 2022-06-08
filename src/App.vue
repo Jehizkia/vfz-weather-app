@@ -38,6 +38,15 @@
           />
         </transition-group>
 
+        <div v-if="weatherCasts.length === 0" class="d-flex flex-column align-items-center text-white empty-state-city" style="margin-top: 5rem;">
+          <div style="width: 4rem;">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+          </div>
+          <p class="text-white text-center mt-4 fs-5">Please add a city to get started</p>
+        </div>
       </div>
     </div>
   </div>
@@ -48,6 +57,12 @@ body {
   min-height: 100vh;
   background: rgb(67, 86, 111);
   background: linear-gradient(157deg, rgba(67, 86, 111, 1) 0%, rgba(20, 54, 116, 1) 100%);
+}
+
+.empty-state-city {
+  background: linear-gradient(157deg, rgb(164 176 193 / 54%) 0%, rgb(160 184 228 / 20%) 100%);
+  border-radius: 0.8rem;
+  padding: 2rem;
 }
 
 .list-complete-item {
