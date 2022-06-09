@@ -1,11 +1,21 @@
 <template>
   <div class="weather-card">
+    <div class="w-show-more">
+      <div class="w-show-more-icon" :class="{'rotate-up' : displayMore}" @click="displayMore = !displayMore">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+        </svg>
+      </div>
+    </div>
     <div class="w-icon-wrap">
       <div class="w-icon">
         <weather-icon :weather="weather" />
       </div>
     </div>
-    <div class="w-info">
+    <div class="w-more-info" :class="{'show-with-transition': displayMore}">
+      <h1 class="text-white">Insert feature</h1>
+    </div>
+    <div class="w-info" :class="{'hide-with-transition': displayMore}">
       <div class="d-flex justify-content-between">
         <h1 class="text-white">
           {{ weather.name }}
@@ -66,6 +76,11 @@ export default {
       return Math.round(this.weather.main.temp_max)
     }
   },
+  data() {
+    return {
+      displayMore: false,
+    }
+  },
   methods: {
     remove () {
       this.$emit('remove', {
@@ -87,6 +102,51 @@ export default {
   display: flex;
   transition: all ease 0.6s;
   filter: drop-shadow(0 20px 13px rgb(0 0 0 / 0.03)) drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));
+  position: relative;
+  overflow: hidden;
+}
+
+.w-more-info {
+  position: absolute;
+  transform: translateY(-16rem);
+  transition: all ease 0.6s;
+  padding-left: 12rem;
+}
+
+.hide-with-transition {
+  transform: translateY(16rem);
+}
+
+.show-with-transition {
+  transform: translateY(0rem);
+}
+
+.w-show-more {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+}
+
+.w-show-more-icon {
+  width: 2rem;
+  height: 2rem;
+  color: white;
+  opacity: 0;
+  margin-bottom: 1rem;
+  border-radius: 1rem;
+  transition: all ease 0.4s;
+  cursor: pointer;
+}
+
+.w-show-more-icon:hover {
+  background-color: cornflowerblue;
+}
+
+.rotate-up {
+  transform: rotateX(180deg);
 }
 
 .weather-card .w-icon-wrap {
@@ -107,6 +167,7 @@ export default {
 .w-info {
   padding-left: 2rem;
   width: 100%;
+  transition: all ease 0.6s;
 }
 
 .w-icon-close {
@@ -117,7 +178,7 @@ export default {
   transition: opacity ease 0.3s;
 }
 
-.weather-card:hover .w-icon-close {
+.weather-card:hover .w-icon-close, .weather-card:hover .w-show-more-icon {
   opacity: 1;
 }
 
