@@ -4,6 +4,9 @@
 
 http://159.223.237.124
 
+Video Cypress test
+https://hiz.stackstorage.com/s/vfz-weather-cypress
+
 ## Project setup
 ```
 npm install

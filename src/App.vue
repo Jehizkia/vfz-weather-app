@@ -15,8 +15,12 @@
         </div>
 
         <div class="text-white user-select-none">
-          <span :class="[ unit === 'metric' ? 'unit-active' : 'unit-inactive' ]" @click="storeUnitPreference('metric')">C  &#176;</span> |
-          <span :class="[ unit === 'imperial' ? 'unit-active' : 'unit-inactive' ]" @click="storeUnitPreference('imperial')">F  &#176;</span>
+          <span :class="[ unit === 'metric' ? 'unit-active' : 'unit-inactive' ]" @click="storeUnitPreference('metric')">
+            <temperature-unit unit="metric"/>
+          </span> |
+          <span id="imperial" :class="[ unit === 'imperial' ? 'unit-active' : 'unit-inactive' ]" @click="storeUnitPreference('imperial')">
+            <temperature-unit unit="imperial" />
+          </span>
         </div>
       </div>
 
@@ -119,10 +123,12 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import axios from 'axios'
 import WeatherCard from '@/components/WeatherCard'
 import MyLogo from '@/components/MyLogo'
+import TemperatureUnit from "@/components/TemperatureUnit";
 
 export default {
   name: 'App',
   components: {
+    TemperatureUnit,
     WeatherCard,
     MyLogo
   },
