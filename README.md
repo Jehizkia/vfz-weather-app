@@ -1,5 +1,9 @@
 # vfz-weather-app
 
+# Live demo
+
+http://159.223.237.124
+
 ## Project setup
 ```
 npm install
