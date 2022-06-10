@@ -9,15 +9,19 @@
     </div>
     <div class="w-icon-wrap">
       <div class="w-icon">
-        <weather-icon :weather="weather" />
+        <weather-icon :weather="weather"/>
       </div>
     </div>
     <div class="w-more-info" :class="{'show-with-transition': displayMore}">
-      <h1 class="text-white">Insert feature</h1>
+      <h1 class="text-white">Meta data</h1>
+      <p class="text-white opacity-50"><span class="font-bold mr-2">Luchtvochtigheid </span> {{ weather.main.humidity }}%</p>
+      <p class="text-white opacity-50"><span class="font-bold mr-2">Voelt aan als</span> {{ feelTemperature }}<temperature-unit :unit="unit"/></p>
+      <p class="text-white opacity-50"><span class="font-bold mr-2">Druk</span> {{ weather.main.pressure }} hPa</p>
+      <p class="text-white opacity-50"><span class="font-bold mr-2">Wind speed </span> {{ weather.wind.speed }}</p>
     </div>
     <div class="w-info" :class="{'hide-with-transition': displayMore}">
       <div class="d-flex justify-content-between">
-        <h1 class="text-white">
+        <h1 class="text-white" >
           {{ weather.name }}
         </h1>
         <div @click="remove" class="w-icon-close">
@@ -32,12 +36,7 @@
       </p>
       <p class="fs-2 text-white">
         {{ temperature }}
-        <span v-if="unit === 'metric'">
-          &#176; C
-        </span>
-        <span v-else>
-          &#176; F
-        </span>
+        <temperature-unit :unit="unit" />
       </p>
 
       <p class="" style="color: rgb(255 255 255 / 50%);">
@@ -49,8 +48,9 @@
 
 <script>
 import WeatherIcon from '@/components/WeatherIcon'
+import TemperatureUnit from "@/components/TemperatureUnit";
 export default {
-  components: { WeatherIcon },
+  components: { WeatherIcon, TemperatureUnit },
   props: {
     weather: {
       type: Object,
@@ -74,6 +74,10 @@ export default {
     },
     maxTemperature() {
       return Math.round(this.weather.main.temp_max)
+    },
+
+    feelTemperature() {
+      return Math.round(this.weather.main.feels_like)
     }
   },
   data() {
@@ -123,6 +127,7 @@ export default {
 
 .w-show-more {
   position: absolute;
+  z-index: 10;
   left: 0;
   right: 0;
   bottom: 0;

@@ -33,7 +33,8 @@
               v-for="(weatherData, index) in weatherCasts"
               :weather="weatherData"
               :weather-index="index"
-              :key="`weather-card-${index}`"
+              :key="weatherData.id"
+              :unit="unit"
               @remove="deleteCity"
           />
         </transition-group>
@@ -184,7 +185,7 @@ export default {
     },
 
     addCity () {
-      this.addCityToList(this.cityName)
+      this.addCityToList(this.cityName, this.defaultCities.length)
       this.cityName = ''
     },
 
@@ -198,13 +199,15 @@ export default {
       window.location.reload()
     },
 
-    deleteCity ({
-      defaultCityIndex,
-      weatherCastIndex
-    }) {
-      this.defaultCities.splice(defaultCityIndex, 1)
-      this.weatherCasts.splice(weatherCastIndex, 1)
-      this.storeDefaultCitiesInLocalStorage()
+    deleteCity ({defaultCityIndex, weatherCastIndex }) {
+      console.log(defaultCityIndex, weatherCastIndex)
+      if (this.weatherCasts.length <= 1) {
+        alert("Sorry, You must have at least 1 city.")
+      } else {
+        this.defaultCities.splice(defaultCityIndex, 1)
+        this.storeDefaultCitiesInLocalStorage()
+        this.weatherCasts.splice(weatherCastIndex, 1)
+      }
     }
   }
 }

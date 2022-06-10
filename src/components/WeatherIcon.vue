@@ -14,7 +14,7 @@ export default {
   },
   data() {
     return {
-      currentIcon: '/weather-icons/05-partial-cloudy-light.png',
+      currentIcon: `/weather-icons/${this.weather.weather[0].icon}.png`,
     }
   },
 
